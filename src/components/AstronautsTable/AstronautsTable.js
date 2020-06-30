@@ -138,7 +138,7 @@ const AstronautsTable = ({astronauts,deleteAstronauts})=> {
   
                     return (
                       <Astronaut
-                        key = {row.name}
+                        key = {row.name+row.mission}
                         isItemSelected = {isItemSelected}
                         labelId = {labelId}
                         row = {row}

@@ -42,7 +42,7 @@ function AstronautForm({addAstronaut}){
     }
     const handleSubmit = (event) =>{
       event.preventDefault();
-      if(!name || !days ||mission){
+      if(!name || !days ||!mission){
         return
       }
       addAstronaut({
