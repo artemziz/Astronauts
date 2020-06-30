@@ -1,0 +1,1 @@
+export const ADD_ASTRONAUT = 'ADD_ASTRONAUT'
