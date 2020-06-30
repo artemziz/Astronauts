@@ -1,4 +1,4 @@
-import { ADD_ASTRONAUT } from "./types"
+import { ADD_ASTRONAUT,DELETE_ASTRONAUTS } from "./types"
 
 const initialState = {
     astronauts:[{ "name": "Sigmund Jähn", "date": 272926800, "days": 7, "mission": "Sojus 31 / Sojus 29",
@@ -26,6 +26,10 @@ export const astronautsReducer = (state = initialState,action) =>{
     switch(action.type){
       case ADD_ASTRONAUT:
         return {...state,astronauts:[...state.astronauts,action.payload]}
+      case DELETE_ASTRONAUTS:
+        let newData = state.astronauts.slice();
+        newData = newData.filter(item =>!action.payload.includes(item.name));
+        return {...state,astronauts:newData}
       default:return state
     }
     

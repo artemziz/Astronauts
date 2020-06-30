@@ -15,7 +15,7 @@ import Switch from '@material-ui/core/Switch';
 import AstronautsTableToolbar from '../AstronautsTableToolbar/AstronautsTableToolbar';
 import AstronautsTableHead from '../AstronautsTableHead/AstronautsTableHead';
 import Astronaut from '../Astronaut/Astronaut';
-
+import {deleteAstronauts} from '../../redux/actions';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
 
-const AstronautsTable = ({astronauts})=> {
+const AstronautsTable = ({astronauts,deleteAstronauts})=> {
     const classes = useStyles();
 //     const InitData = [{ "name": "Sigmund Jähn", "date": 272926800, "days": 7, "mission": "Sojus 31 / Sojus 29",
 // "isMultiple": false },
@@ -101,17 +101,14 @@ const AstronautsTable = ({astronauts})=> {
     useEffect(()=>{
       setData(astronauts);
     },[astronauts])
-    
+
     const handleRequestSort = (event, property) => {
       const isAsc = orderBy === property && order === 'asc';
       setOrder(isAsc ? 'desc' : 'asc');
       setOrderBy(property);
     };
     const deleteItems = (event) =>{
-
-      let newData = data.slice();
-      newData = newData.filter(item =>!selected.includes(item.name));
-      setData(newData);
+      deleteAstronauts(selected);
       setSelected([]);
     }
     const handleSelectAllClick = (event) => {
@@ -264,4 +261,8 @@ const mapStateToProps = state =>{
     astronauts:state.astronauts.astronauts
   }
 }
-export default connect(mapStateToProps,null)(AstronautsTable)
+
+const mapDispatchToProps ={
+  deleteAstronauts
+}
+export default connect(mapStateToProps,mapDispatchToProps)(AstronautsTable)
