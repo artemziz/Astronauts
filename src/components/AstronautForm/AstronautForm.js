@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
 import {connect} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 
 import {addAstronaut} from '../../redux/actions';
-const useStyles = makeStyles({
-    list: {
-      width: 500,
-      padding:20,
-    },
-  });
+import './AstronautForm.css';
 
 function AstronautForm({addAstronaut}){
-    const classes = useStyles();
+
     const [date, setDate] = useState("2020-06-29");
     const [isMultiple,setIsMultiple] = useState(false);
     const[name,setName] = useState('');
     const[days,setDays] = useState(0);
     const[mission,SetMission] = useState('');
     const handleNameChange = (event) => {
-      console.log(event.target.value);
-      
+        if(!event.target.value){
+          event.target.setAttribute('aria-invalid',true);
+          
+        }
         setName(event.target.value);
     };
     const handleDaysChange = (event) => {
@@ -47,6 +42,9 @@ function AstronautForm({addAstronaut}){
     }
     const handleSubmit = (event) =>{
       event.preventDefault();
+      if(!name || !days ||mission){
+        return
+      }
       addAstronaut({
         name,
         date:Date.parse(date)/1000,
@@ -56,14 +54,13 @@ function AstronautForm({addAstronaut}){
       })
     }
     return(
-        <div
-        className={clsx(classes.list)}
-      >
-        <form>
-        <div>
+        
+        <form noValidate autoComplete="off" className="AstronautForm">
+        <div className="makeStyles-title-3 MuiTypography-h6">Add new Astronaut</div>
+        <div className='AstronautForm-input'>
           <TextField required name="name" onChange={handleNameChange} value={name}  label="Name" />
         </div>
-        <div>
+        <div className='AstronautForm-input'>
           <TextField
               
               required
@@ -75,7 +72,7 @@ function AstronautForm({addAstronaut}){
               onChange={handleDateChange}
           />
         </div>
-        <div>
+        <div className='AstronautForm-input'>
           <TextField
             onChange={handleDaysChange}
             required
@@ -89,10 +86,10 @@ function AstronautForm({addAstronaut}){
             }}
           />
         </div>
-        <div>
+        <div className='AstronautForm-input'>
           <TextField onChange={handleMissionChange} required name='mission' value={mission}  label="Mission" />
         </div>
-        <div>
+        <div className='AstronautForm-input'>
           <FormControlLabel
           control={
             <Checkbox
@@ -112,7 +109,7 @@ function AstronautForm({addAstronaut}){
         </div>
         
         </form>
-      </div>
+      
     )
 }
 

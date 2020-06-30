@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import AddButton from '../AddButton/AddButton';
 
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
@@ -56,11 +56,7 @@ export default function AstronautsTableToolbar(props){
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
+          <AddButton/>
         )}
       </Toolbar>
     );

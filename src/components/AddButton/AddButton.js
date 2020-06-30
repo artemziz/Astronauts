@@ -23,8 +23,8 @@ import AstronautForm from '../AstronautForm/AstronautForm';
     };
   
     return (
-      <div>
-          <IconButton onClick={toggleDrawer(true)}  aria-label="add">
+      <div className='AddButton'>
+          <IconButton  onClick={toggleDrawer(true)}  aria-label="add">
               <AddIcon/>
           </IconButton>
             <SwipeableDrawer
