@@ -13,28 +13,39 @@ function AstronautForm({addAstronaut}){
     const [date, setDate] = useState("2020-06-29");
     const [isMultiple,setIsMultiple] = useState(false);
     const[name,setName] = useState('');
+    const[isErrorName,setIsErrorName] = useState(false);
     const[days,setDays] = useState(0);
+    const[isErrorDays,setIsErrorDays] = useState(false);
     const[mission,SetMission] = useState('');
+    const[isErrorMission,setIsErrorMission] = useState(false);
     const handleNameChange = (event) => {
-        if(!event.target.value){
-          event.target.setAttribute('aria-invalid',true);
-          
-        }
         setName(event.target.value);
+        if(!event.target.value){
+          setIsErrorName(true);
+        }else{
+          setIsErrorName(false);
+        }
     };
     const handleDaysChange = (event) => {
-      console.log(event.target.value);
-      
+
         setDays(event.target.value);
+        
+        if(!event.target.value || event.target.value<=0 || event.target.value[0]==='0' || event.target.value.includes('e')){
+          setIsErrorDays(true);
+        }else{
+          setIsErrorDays(false);
+        }
     };
     const handleMissionChange = (event) => {
-      console.log(event.target.value);
-      
         SetMission(event.target.value);
+        if(!event.target.value){
+          setIsErrorMission(true);
+        }else{
+          setIsErrorMission(false);
+        }
+
     };
     const handleDateChange = (event) => {
-      console.log(event.target.value);
-      
         setDate(event.target.value);
     };
     const handleIsMultipleChange = (event) =>{
@@ -42,8 +53,8 @@ function AstronautForm({addAstronaut}){
     }
     const handleSubmit = (event) =>{
       event.preventDefault();
-      if(!name || !days ||!mission){
-        return
+      if(isErrorName || isErrorDays || isErrorMission){
+        return 
       }
       addAstronaut({
         name,
@@ -52,13 +63,23 @@ function AstronautForm({addAstronaut}){
         mission,
         isMultiple
       })
+      setName('');
+      setDate('2020-06-29');
+      setDays(0);
+      SetMission('');
     }
+    
     return(
         
         <form noValidate autoComplete="off" className="AstronautForm">
         <div className="makeStyles-title-3 MuiTypography-h6">Add new Astronaut</div>
         <div className='AstronautForm-input'>
+        {isErrorName ? (
+          <TextField error helperText="Incorrect entry." required name="name" onChange={handleNameChange} value={name}  label="Name" />
+        ):(
           <TextField required name="name" onChange={handleNameChange} value={name}  label="Name" />
+        )}
+          
         </div>
         <div className='AstronautForm-input'>
           <TextField
@@ -73,6 +94,21 @@ function AstronautForm({addAstronaut}){
           />
         </div>
         <div className='AstronautForm-input'>
+        {isErrorDays ? (
+          <TextField
+            error helperText="Incorrect entry."
+            onChange={handleDaysChange}
+            required
+            value={days}
+            name="days"
+            id="standard-number"
+            label="Days"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        ):(
           <TextField
             onChange={handleDaysChange}
             required
@@ -85,9 +121,16 @@ function AstronautForm({addAstronaut}){
               shrink: true,
             }}
           />
+        )}
+          
         </div>
         <div className='AstronautForm-input'>
+        {isErrorMission ? (
+          <TextField error helperText="Incorrect entry." onChange={handleMissionChange} required name='mission' value={mission}  label="Mission" />
+        ): (
           <TextField onChange={handleMissionChange} required name='mission' value={mission}  label="Mission" />
+        )}
+          
         </div>
         <div className='AstronautForm-input'>
           <FormControlLabel
